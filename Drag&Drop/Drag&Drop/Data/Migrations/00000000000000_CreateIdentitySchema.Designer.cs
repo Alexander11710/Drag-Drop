@@ -9,7 +9,7 @@ using System;
 
 namespace Drag_Drop.Data.Migrations
 {
-    [DbContext(typeof(DragAndDropDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
