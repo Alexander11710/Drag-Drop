@@ -9,18 +9,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Drag_Drop.Data.Migrations
+namespace Drag_Drop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320080432_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240424070322_testMigration123")]
+    partial class testMigration123
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

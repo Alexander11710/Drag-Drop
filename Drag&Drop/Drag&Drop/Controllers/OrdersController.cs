@@ -6,26 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drag_Drop.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Drag_Drop.Controllers
 {
-    public class ProductsController : Controller
+    [Authorize]
+    public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<Client> _userManager;
 
-        public ProductsController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context, UserManager<Client> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Products
+        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.TypeProducts);
+            var applicationDbContext = _context.Orders.Include(o => o.Clients).Include(o => o.Products);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,43 +38,47 @@ namespace Drag_Drop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.TypeProducts)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (product == null)
+            var order = await _context.Orders
+                .Include(o => o.Clients)
+                .Include(o => o.Products)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(order);
         }
 
-        // GET: Products/Create
+        // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name");
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "Name");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CatalogNumber,Name,Ingredients,SideEffect,Usage,PhotoURL,Quantity,Price,TypeProductId")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Quantity")] Order order)
         {
             if (ModelState.IsValid)
             {
-                product.RegisterOn = DateTime.Now;
-                _context.Products.Add(product);
+                //order.RegisterOn = DateTime.Now;
+                order.ClientId = _userManager.GetUserId(User);
+                _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name", product.TypeProductId);
-            return View(product);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "Name", order.ProductId);
+            return View(order);
         }
 
-        // GET: Products/Edit/5
+        // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +86,24 @@ namespace Drag_Drop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name", product.TypeProductId);
-            return View(product);
+            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "ID", order.ProductId);
+            return View(order);
         }
 
-        // POST: Products/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CatalogNumber,Name,Ingredients,SideEffect,Usage,PhotoURL,Quantity,Price,RegisterOn,TypeProductId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,ClientId,Quantity")] Order order)
         {
-            if (id != product.ID)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -102,13 +112,12 @@ namespace Drag_Drop.Controllers
             {
                 try
                 {
-                    product.RegisterOn = DateTime.Now;
-                    _context.Products.Update(product);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ID))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +128,12 @@ namespace Drag_Drop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name", product.TypeProductId);
-            return View(product);
+            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "ID", order.ProductId);
+            return View(order);
         }
 
-        // GET: Products/Delete/5
+        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,35 +141,36 @@ namespace Drag_Drop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.TypeProducts)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (product == null)
+            var order = await _context.Orders
+                .Include(o => o.Clients)
+                .Include(o => o.Products)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(order);
         }
 
-        // POST: Products/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
             {
-                _context.Products.Remove(product);
+                _context.Orders.Remove(order);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool OrderExists(int id)
         {
-            return _context.Products.Any(e => e.ID == id);
+            return _context.Orders.Any(e => e.Id == id);
         }
     }
 }

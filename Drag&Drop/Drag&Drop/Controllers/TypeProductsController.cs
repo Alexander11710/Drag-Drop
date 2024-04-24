@@ -53,16 +53,16 @@ namespace Drag_Drop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,RegisterOn")] TypeProduct typeProduct)
+        public async Task<IActionResult> Create([Bind("Name,Description")] TypeProduct typeProduct)
         {
-            typeProduct.RegisterOn = DateTime.Now;
             if (!ModelState.IsValid)
             {
-                return View(typeProduct);
+                typeProduct.RegisterOn = DateTime.Now;
+                _context.Add(typeProduct);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            _context.Add(typeProduct);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View(typeProduct);
         }
 
         // GET: TypeProducts/Edit/5
