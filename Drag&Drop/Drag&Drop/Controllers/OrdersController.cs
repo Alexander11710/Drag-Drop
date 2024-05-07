@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drag_Drop.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Drag_Drop.Controllers
 {
@@ -57,6 +57,20 @@ namespace Drag_Drop.Controllers
             ViewData["ProductId"] = new SelectList(_context.Products, "ID", "Name");
             return View();
         }
+        public async Task<IActionResult> CreateWithProductId(int productId, int countP)
+        {
+            var currentWine = await _context.Products.FirstOrDefaultAsync(z => z.ID == productId);
+            Order order = new Order();
+            //order.ProductsId = productId;
+            // productId = order.ProductsId;
+            order.ProductId = productId;
+            order.Quantity = countP;
+            order.ClientId = _userManager.GetUserId(User);
+            var price = countP * currentWine.Price;
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -67,13 +81,12 @@ namespace Drag_Drop.Controllers
         {
             if (ModelState.IsValid)
             {
-                //order.RegisterOn = DateTime.Now;
                 order.ClientId = _userManager.GetUserId(User);
-                _context.Orders.Add(order);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Name", order.ClientId);
             ViewData["ProductId"] = new SelectList(_context.Products, "ID", "Name", order.ProductId);
             return View(order);
         }
@@ -91,8 +104,8 @@ namespace Drag_Drop.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "ID", order.ProductId);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "Name", order.ProductId);
             return View(order);
         }
 
@@ -112,7 +125,8 @@ namespace Drag_Drop.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    order.ClientId = _userManager.GetUserId(User);
+                    _context.Orders.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -128,8 +142,8 @@ namespace Drag_Drop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "ID", order.ProductId);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ID", "Name", order.ProductId);
             return View(order);
         }
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drag_Drop.Data;
+using Microsoft.VisualBasic;
 
 namespace Drag_Drop.Controllers
 {
@@ -21,7 +22,7 @@ namespace Drag_Drop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.TypeProducts);
+            var applicationDbContext = _context.Products.Include(p => p.Categories).Include(p => p.TypeProducts);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -34,6 +35,7 @@ namespace Drag_Drop.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Categories)
                 .Include(p => p.TypeProducts)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (product == null)
@@ -47,6 +49,7 @@ namespace Drag_Drop.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            ViewData["CategoriesId"] = new SelectList(_context.Category, "Id", "Name");
             ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name");
             return View();
         }
@@ -56,7 +59,7 @@ namespace Drag_Drop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CatalogNumber,Name,Ingredients,SideEffect,Usage,PhotoURL,Quantity,Price,TypeProductId")] Product product)
+        public async Task<IActionResult> Create([Bind("CatalogNumber,Name,Ingredients,SideEffect,Usage,PhotoURL,Quantity,Price,RegisterOn,CategoriesId,TypeProductId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +68,7 @@ namespace Drag_Drop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoriesId"] = new SelectList(_context.Category, "Id", "Name", product.CategoriesId);
             ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name", product.TypeProductId);
             return View(product);
         }
@@ -82,6 +86,7 @@ namespace Drag_Drop.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoriesId"] = new SelectList(_context.Category, "Id", "Name", product.CategoriesId);
             ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name", product.TypeProductId);
             return View(product);
         }
@@ -91,7 +96,7 @@ namespace Drag_Drop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CatalogNumber,Name,Ingredients,SideEffect,Usage,PhotoURL,Quantity,Price,RegisterOn,TypeProductId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,CatalogNumber,Name,Ingredients,SideEffect,Usage,PhotoURL,Quantity,Price,RegisterOn,CategoriesId,TypeProductId")] Product product)
         {
             if (id != product.ID)
             {
@@ -119,6 +124,7 @@ namespace Drag_Drop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoriesId"] = new SelectList(_context.Category, "Id", "Name", product.CategoriesId);
             ViewData["TypeProductId"] = new SelectList(_context.TypeProducts, "Id", "Name", product.TypeProductId);
             return View(product);
         }
@@ -132,6 +138,7 @@ namespace Drag_Drop.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Categories)
                 .Include(p => p.TypeProducts)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (product == null)

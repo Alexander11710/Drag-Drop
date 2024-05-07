@@ -11,7 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;   
 using Drag_Drop.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace Drag_Drop.Areas.Identity.Pages.Account
 {
@@ -87,14 +88,15 @@ namespace Drag_Drop.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "The field is requared!")]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
+     
 
             [Required(ErrorMessage = "The field is requared!")]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
+            [Required(ErrorMessage = "The field is requared!")]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -131,6 +133,7 @@ namespace Drag_Drop.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
+                    Address = Input.Address,
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);

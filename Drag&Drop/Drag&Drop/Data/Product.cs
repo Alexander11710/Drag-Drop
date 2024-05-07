@@ -17,6 +17,8 @@ namespace Drag_Drop.Data
         public decimal Price { get; set; }
         public DateTime RegisterOn { get; set; } = DateTime.Now;
 
+        public int CategoriesId { get; set; }  //F.K
+        public Category Categories { get; set; } // 1:M
         public int TypeProductId { get; set; }  //F.K
         public TypeProduct TypeProducts { get; set; } // 1:M
         public ICollection<Order> Orders { get; set; }

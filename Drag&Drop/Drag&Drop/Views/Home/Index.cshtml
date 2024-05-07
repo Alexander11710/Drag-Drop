@@ -1,8 +1,40 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .Image {
+        position: relative;
+    }
 
+        .Image img {
+            overflow: hidden;
+            justify-content: center;
+            width: 85%;
+            height: auto;
+            border-radius: 2%;
+        }
+
+        .Image h1 {
+            position: absolute;
+            top: 7%;
+            left:31.5%;
+            right: 0%;
+            color: white;
+            font-size: 30px;
+            font-family: cursive;
+            text-shadow: 3px 3px black;
+            background-color: #87c6ec;
+            width: 40%;
+            
+        }
+</style>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="Image">
+        <img src="https://wallpapers.com/images/featured/healthcare-oco8w27tkw40cp90.jpg" />
+        <h1>
+            Дрогерия „Drag&Drop“
+        </h1>
+
+    </div>
+
 </div>

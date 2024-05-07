@@ -9,22 +9,22 @@ using Drag_Drop.Data;
 
 namespace Drag_Drop.Controllers
 {
-    public class TypeProductsController : Controller
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TypeProductsController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: TypeProducts
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TypeProducts.ToListAsync());
+            return View(await _context.Category.ToListAsync());
         }
 
-        // GET: TypeProducts/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,40 +32,40 @@ namespace Drag_Drop.Controllers
                 return NotFound();
             }
 
-            var typeProduct = await _context.TypeProducts
+            var category = await _context.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (typeProduct == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(typeProduct);
+            return View(category);
         }
 
-        // GET: TypeProducts/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TypeProducts/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,RegisterOn")] TypeProduct typeProduct)
+        public async Task<IActionResult> Create([Bind("Name,Description,RegisterOn")] Category category)
         {
             if (ModelState.IsValid)
             {
-                typeProduct.RegisterOn = DateTime.Now;
-                _context.TypeProducts.Add(typeProduct);
+                category.RegisterOn = DateTime.Now;
+                _context.Category.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(typeProduct);
+            return View(category);
         }
 
-        // GET: TypeProducts/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Drag_Drop.Controllers
                 return NotFound();
             }
 
-            var typeProduct = await _context.TypeProducts.FindAsync(id);
-            if (typeProduct == null)
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(typeProduct);
+            return View(category);
         }
 
-        // POST: TypeProducts/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,RegisterOn")] TypeProduct typeProduct)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,RegisterOn")] Category category)
         {
-            if (id != typeProduct.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -97,13 +97,13 @@ namespace Drag_Drop.Controllers
             {
                 try
                 {
-                    typeProduct.RegisterOn = DateTime.Now;
-                    _context.TypeProducts.Update(typeProduct);
+                    category.RegisterOn = DateTime.Now;
+                    _context.Category.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TypeProductExists(typeProduct.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace Drag_Drop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(typeProduct);
+            return View(category);
         }
 
-        // GET: TypeProducts/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,34 +125,34 @@ namespace Drag_Drop.Controllers
                 return NotFound();
             }
 
-            var typeProduct = await _context.TypeProducts
+            var category = await _context.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (typeProduct == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(typeProduct);
+            return View(category);
         }
 
-        // POST: TypeProducts/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var typeProduct = await _context.TypeProducts.FindAsync(id);
-            if (typeProduct != null)
+            var category = await _context.Category.FindAsync(id);
+            if (category != null)
             {
-                _context.TypeProducts.Remove(typeProduct);
+                _context.Category.Remove(category);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TypeProductExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.TypeProducts.Any(e => e.Id == id);
+            return _context.Category.Any(e => e.Id == id);
         }
     }
 }
