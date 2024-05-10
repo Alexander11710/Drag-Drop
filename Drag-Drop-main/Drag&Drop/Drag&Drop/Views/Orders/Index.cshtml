@@ -24,6 +24,9 @@
             <th>
                 Количество
             </th>
+            <th>
+                Цена
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -39,6 +42,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
+                <td>
+                    @(item.Products.Price * item.Quantity) лв.
+                </td>
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
