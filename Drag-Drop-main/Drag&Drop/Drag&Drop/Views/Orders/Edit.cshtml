@@ -3,10 +3,79 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<h1>Edit</h1>
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: 3px 3px 3px 1px;
+        width: 360px;
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.7);
+        margin-left: auto;
+        margin-right: auto;
+        font-family: cursive;
+    }
 
-<h4>Order</h4>
+    .col-md-4 {
+        width: 400px;
+        font-family: cursive;
+    }
+
+    .form-control {
+        font-family: cursive;
+    }
+
+    .HeadingCreate {
+        font-family: cursive;
+        font-weight: 900;
+        color: #79000E;
+        text-shadow: 1px 1px black
+    }
+
+    .btnSubmit {
+        padding: 10px;
+        background-color: #79000E;
+        border-color: #79000E;
+    }
+
+    .AddBtn {
+        border-color: #79000E;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px;
+        width: 100%;
+    }
+
+        .AddBtn a {
+            background-color: #79000E;
+            border-color: #79000E;
+        }
+
+        .AddBtn input[type=submit] {
+            background-color: #79000E;
+            border-color: #79000E;
+        }
+
+        .AddBtn a:hover {
+            background-color: #6F2929;
+            border-color: #6F2929;
+        }
+
+    .BackBtn a:hover {
+        background-color: #6F2929;
+        border-color: #6F2929;
+    }
+</style>
+<h1>Редактиране на поръчка</h1>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,15 +98,15 @@
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Запази" class="btn btn-primary" />
+            </div>
+            <div class="BackHome">
+                <a asp-action="Index" class="btn btn-primary">Назад</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

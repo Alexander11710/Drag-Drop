@@ -3,34 +3,38 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<h1>Details</h1>
+    .detailsAdminBtn a:hover {
+        background-color: #6F2929;
+    }
+</style>
+
+<h1>Редактиране </h1>
 
 <div>
-    <h4>Order</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Products)
-        </dt>
+    <dl class="DetailedOrders" style="background-color:white; color:black;">
+
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Products.ID)
+           Име на продукта: @Html.DisplayFor(model => model.Products.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Clients)
-        </dt>
+
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Clients.Id)
+           Име на потребителя: @Html.DisplayFor(model => model.Clients.UserName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
+
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
+           Брой: @Html.DisplayFor(model => model.Quantity)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" type="submit" class="btn btn-primary">Редактирай</a>
+    <a asp-action="Back" asp-route-id="@Model?.Id" type="submit" class="btn btn-primary">Назад</a>
 </div>
