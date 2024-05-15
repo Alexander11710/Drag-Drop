@@ -3,34 +3,48 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<h1>Details</h1>
+    .detailsAdminBtn a:hover {
+        background-color: #6F2929;
+    }
+</style>
+
+    <h1 class="ProductInfoDetailed">@Html.DisplayFor(model => model.Name)</h1>
 
 <div>
-    <h4>TypeProduct</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+    <dl class="DetailedTypeProducts" style="background-color:white; color:black;">
+ 
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            Име на вида:@Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            Описание: @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegisterOn)
-        </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegisterOn)
+            Дата на регистрация: @Html.DisplayFor(model => model.RegisterOn)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (User.IsInRole("Admin"))
+{
+    <div class="detailsAdminBtn">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" type="submit" class="btn btn-primary">Редактирай</a>
+    </div>
+}
+else
+{
+    <div class="detailsCustomerBtn">
+        <form method="get" asp-controller="Orders" asp-action="CreateWithWineId" asp-route-wineId="@Model?.Id">
+            <input name="wineId" type="hidden" value="@Model?.Id" />
+            <input name="countP" id="ccountDetails" type="number" value="1" style="color:black; font:bold" />
+            <input id="buyBtnDetails" type="submit" value="Поръчай &#128722;" class="btn btn-primary" />
+        </form>
+    </div>
+}

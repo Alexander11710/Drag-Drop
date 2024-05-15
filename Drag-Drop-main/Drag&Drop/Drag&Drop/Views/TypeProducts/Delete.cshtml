@@ -3,37 +3,100 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<h1>Delete</h1>
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: 3px 3px 3px 1px;
+        width: 360px;
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.7);
+        margin-left: auto;
+        margin-right: auto;
+        font-family: cursive;
+    }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>TypeProduct</h4>
-    <hr />
+    .col-md-4 {
+        width: 400px;
+        font-family: cursive;
+    }
+
+    .form-control {
+        font-family: cursive;
+    }
+
+    .HeadingCreate {
+        font-family: cursive;
+        font-weight: 900;
+        color: #79000E;
+        text-shadow: 1px 1px black
+    }
+
+    .btnSubmit {
+        padding: 10px;
+        background-color: #79000E;
+        border-color: #79000E;
+    }
+
+    .AddBtn {
+        border-color: #79000E;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px;
+        width: 100%;
+    }
+
+        .AddBtn a {
+            background-color: #79000E;
+            border-color: #79000E;
+        }
+
+        .AddBtn input[type=submit] {
+            background-color: #79000E;
+            border-color: #79000E;
+        }
+
+        .AddBtn a:hover {
+            background-color: #6F2929;
+            border-color: #6F2929;
+        }
+
+    .BackBtn a:hover {
+        background-color: #6F2929;
+        border-color: #6F2929;
+    }
+</style>
+
+<h1 class="Heading">@Html.DisplayFor(model => model.Name)</h1>
+<center><h3 style="background-color:white; color:black;">Наистина ли искате да изтриете този вид?</h3></center>
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+           Име на типа: @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+           Описание: @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegisterOn)
-        </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegisterOn)
+           Време на регистрация: @Html.DisplayFor(model => model.RegisterOn)
         </dd>
+        @if (User.IsInRole("Admin"))
+        {
+            <div>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Изтрий" class="btn btn-danger" />
+                    <a class="btn btn-primary" asp-action="Index">Назад към продуктите</a>
+                </form>
+            </div>
+        }
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>

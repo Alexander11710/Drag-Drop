@@ -3,12 +3,44 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<h1>Index</h1>
+    thead {
+        background-color: #87c6ec;
+        color: black;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    tr {
+        background-color: aliceblue;
+        color: black;
+    }
+
+    .order {
+        display: flex;
+        justify-content: center;
+    }
+
+        .order input[type=submit] {
+            width: 170px;
+        }
+
+    #ccount {
+        width: 170px;
+    }
+</style>
+
+<center><h1>Видове продукти</h1></center>
+
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-primary" asp-action="Create" style="float:right">Добав нов вид продукт</a>
+
+}
 <table class="table">
     <thead>
         <tr>
@@ -36,11 +68,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.RegisterOn)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
         </tr>
 }
     </tbody>
