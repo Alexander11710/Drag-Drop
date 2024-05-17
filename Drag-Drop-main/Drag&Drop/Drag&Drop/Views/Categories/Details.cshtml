@@ -1,0 +1,100 @@
+﻿@model Drag_Drop.Data.Category
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: 3px 3px 3px 1px;
+        width: 360px;
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.7);
+        margin-left: auto;
+        margin-right: auto;
+        font-family: cursive;
+    }
+
+    .col-md-4 {
+        width: 400px;
+        font-family: cursive;
+    }
+
+    .form-control {
+        font-family: cursive;
+    }
+
+    .HeadingCreate {
+        font-family: cursive;
+        font-weight: 900;
+        color: #79000E;
+        text-shadow: 1px 1px black
+    }
+
+    .btnSubmit {
+        padding: 10px;
+        background-color: #79000E;
+        border-color: #79000E;
+    }
+
+    .AddBtn {
+        border-color: #79000E;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px;
+        width: 100%;
+    }
+
+        .AddBtn a {
+            background-color: #79000E;
+            border-color: #79000E;
+        }
+
+        .AddBtn input[type=submit] {
+            background-color: #79000E;
+            border-color: #79000E;
+        }
+
+        .AddBtn a:hover {
+            background-color: #6F2929;
+            border-color: #6F2929;
+        }
+
+    .BackBtn a:hover {
+        background-color: #6F2929;
+        border-color: #6F2929;
+    }
+</style>
+
+<h1 class="HeadingDetails">Детайли за даден продукт</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dd class = "col-sm-10">
+            Име на категория: @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dd class = "col-sm-10">
+           Описание на категорияя: @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dd class = "col-sm-10">
+            Време на регистриране: @Html.DisplayFor(model => model.RegisterOn)
+        </dd>
+    </dl>
+</div>
+<div class="DetailsBtn" >
+    <div class="form-group">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Промени</a>
+    </div>
+    <div class="BackHome">
+        <a asp-action="Index" class="btn btn-primary">Назад</a>
+</div>
