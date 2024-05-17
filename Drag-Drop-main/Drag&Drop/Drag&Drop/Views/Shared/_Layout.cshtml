@@ -2,6 +2,21 @@
 <html lang="en">
 <head>
     <style>
+        nav img {
+            display: flex;
+            width: 200px;
+        }
+
+        nav ul li {
+            font-weight: 400;
+        }
+        li{
+            padding:10px;
+            color: lawngreen;
+            justify-content: space-around;
+            justify-items: stretch
+        }
+
         footer {
             background-color: limegreen;
             border: 3px solid black;
@@ -73,6 +88,8 @@
             border: 2px solid white;
             border-radius: 5%;
         }
+
+
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -83,15 +100,15 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="position: relative;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Drag&Drop</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-size: 30px;">Drag&Drop</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1" style="text-align:center; font-size: 25px;" >
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -113,10 +130,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Лекарства</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Продукти</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Поръчки</a>
@@ -124,7 +141,7 @@
                         }
 
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <partial name="_LoginPartial" style="font-size: 25px;" />
                 </div>
             </div>
         </nav>
