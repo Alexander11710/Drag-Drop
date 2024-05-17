@@ -15,11 +15,11 @@
     }
 </style>
 
-<h1>Редактиране </h1>
+<h1 style="font-family: 'Times New Roman'; background-color:rgba(255, 255, 255, 0.7);">Редактиране </h1>
 
 <div>
     <hr />
-    <dl class="DetailedOrders" style="background-color:white; color:black;">
+    <dl class="DetailedOrders" style="background-color:rgba(255, 255, 255, 0.7); font-family:'Times New Roman';">
 
         <dd class = "col-sm-10">
            Име на продукта: @Html.DisplayFor(model => model.Products.Name)
@@ -36,5 +36,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id" type="submit" class="btn btn-primary">Редактирай</a>
-    <a asp-action="Back" asp-route-id="@Model?.Id" type="submit" class="btn btn-primary">Назад</a>
+    <a asp-action="Index" asp-route-id="@Model?.Id" type="submit" class="btn btn-primary">Назад</a>
 </div>
