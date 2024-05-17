@@ -4,13 +4,52 @@
 @{
     ViewData["Title"] = "Log in";
 }
+<style>
+    body {
+        background-image: url(https://aromantic.co.uk/cdn/shop/articles/shutterstock_486713719_1000x_1fae8d4b-11a1-4890-a791-8268522a6c69.jpg?v=1654056377);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<h1>@ViewData["Title"]</h1>
+    #image {
+        position: absolute;
+        z-index: -5;
+        -webkit-filter: blur(2px);
+        width: 99%;
+        height: 100%;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: 3px 3px 3px 1px;
+        width: 360px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin-left: auto;
+        margin-right: auto;
+        font-family: cursive
+    }
+
+    #login-submit {
+        background-color: forestgreen;
+        border-color: forestgreen;
+    }
+
+
+    .col-md-4 {
+        width: 400px;
+        color: forestgreen;
+    }
+</style>
+
+<center><h1 style=" background-color: rgba(255, 255, 255, 0.7); color:forestgreen;   width: 360px;">Влизане в профил</h1></center>
 <div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                <h2>Използвай вече съществуващ профил.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">

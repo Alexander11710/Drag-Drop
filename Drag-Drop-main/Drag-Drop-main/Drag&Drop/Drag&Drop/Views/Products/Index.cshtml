@@ -80,9 +80,9 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
-                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ID">Редактирай</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ID">Детайли</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Изтрий</a>
                     </td>
                 }
                 else
